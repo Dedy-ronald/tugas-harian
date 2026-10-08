@@ -135,3 +135,105 @@ Jawaban singkat tugas ke-3:
    - Penjelasan:
      Hasil perhitungan yang sudah disimpan ke dalam variabel bertipe data primitif (number/string) tidak akan ikut berubah secara otomatis. JavaScript menganut prinsip pass-by-value untuk tipe data primitif, artinya variabel 'hargaProduk0Pajak' menyimpan hasil eksekusi perhitungan pada saat baris tersebut dijalankan. Jika data asli di array diubah belakangan, kita harus menghitung ulang dan membuat ulang string template literal-nya agar nilai di layar ikut terbarui.
 */
+
+// ==========================================
+// LANGKAH 4: DETEKTIF TIPE DATA
+// ==========================================
+
+// Tebakan: "number"
+console.log(typeof 42);
+// Hasil asli: "number" ✔
+
+// Tebakan: "string"
+console.log(typeof "42");
+// Hasil asli: "string" ✔
+
+// Tebakan: "boolean"
+console.log(typeof true);
+// Hasil asli: "boolean" ✔
+
+// Tebakan: "undefined"
+console.log(typeof undefined);
+// Hasil asli: "undefined" ✔
+
+// Tebakan: "object"
+console.log(typeof null);
+// Hasil asli: "object" ✔
+
+// Tebakan: "object"
+console.log(typeof [1, 2, 3]);
+// Hasil asli: "object" ✔
+
+// Tebakan: "object"
+console.log(typeof { nama: "Budi" });
+// Hasil asli: "object" ✔
+
+// Tebakan: "53"
+console.log("5" + 3);
+// Hasil asli: "53" ✔
+
+// Tebakan: 15
+console.log("5" * 3);
+// Hasil asli: 15 ✔
+
+// Tebakan: NaN
+console.log("abc" * 2);
+// Hasil asli: NaN ✔
+
+// Tebakan: Infinity
+console.log(10 / 0);
+// Hasil asli: Infinity ✔
+
+// Tebakan: "object"
+console.log(typeof usaha.website);
+// Hasil asli: "object" ✔
+
+/*
+Jawaban Langkah 4:
+1. Penjelasan tebakan yang meleset / mengejutkan:
+   - typeof [1, 2, 3] hasilnya "object" karena di JS Array adalah tipe data khusus bertipe object.
+   - "5" * 3 hasilnya 15 karena operator perkalian (*) memicu konversi implisit (type coercion) dari string "5" menjadi number 5.
+   - "abc" * 2 hasilnya NaN (Not a Number) karena string "abc" tidak bisa dikonversi menjadi angka valid saat dikali.
+   - 10 / 0 hasilnya Infinity karena pembagian angka positif dengan nol di JS menghasilkan nilai khusus Infinity.
+
+2. typeof null menghasilkan "object":
+   - Ini adalah bug legendaris / warisan (legacy bug) dari awal pembuatan JavaScript pada tahun 1995.
+   - Secara konsep, null BUKAN object, melainkan tipe data primitif yang menandakan "tidak ada nilai".
+   - Cara menjelaskan ke teman: "Anggap ini bug bawaan JS zaman purba yang sengaja gak diperbaiki supaya kode-kode lama di internet tidak rusak. null tetaplah primitif penanda nilai kosong, bukan object sungguhan."
+
+3. Perbedaan "5" + 3 dan "5" * 3:
+   - Operator '+' memiliki peran ganda: penjumlahan angka DAN penggabungan string (concatenation). Jika salah satu operand berupa string, JS memprioritaskan penggabungan string sehingga "5" + 3 menjadi "53".
+   - Operator '*' HANYA berfungsi untuk perkalian aritmatika. Jadi JS memaksa konversi string "5" menjadi angka 5, lalu mengalikannya dengan 3 menjadi 15.
+*/
+
+// ==========================================
+// LANGKAH 5: MODIFIKASI DADAKAN
+// ==========================================
+
+// 1. Menambahkan produk baru
+daftarProduk.push({ nama: "Matcha Latte", harga: 20000 });
+
+// 2. Menambahkan properti baru ke object usaha
+usaha.instagram = "@kopisenja.id";
+
+// 3. Perhitungan baru: Total harga semua produk
+let totalHarga = daftarProduk.reduce((acc, curr) => acc + curr.harga, 0);
+console.log("Total harga seluruh produk: Rp" + totalHarga);
+
+/*
+Jawaban Langkah 5:
+1. Bagian kode yang HARUS diubah dan TIDAK PERLU diubah:
+   - Yang TIDAK PERLU diubah: Kode perhitungan dinamis seperti 'daftarProduk.length - 1' atau pencarian harga dengan metode 'reduce' / 'map'. Karena kode tersebut mengambil panjang array atau isi objek secara otomatis.
+   - Yang HARUS diubah: Jika ada kode yang masih hardcode indeks (misal: 'daftarProduk[3]' untuk mengambil produk terakhir), maka harus diperbaiki menjadi 'daftarProduk[daftarProduk.length - 1]' agar selalu menunjuk ke produk paling akhir.
+
+2. Contoh Statement dan Expression dari kode di atas:
+   - Statement 1: `let totalHarga = daftarProduk.reduce((acc, curr) => acc + curr.harga, 0);`
+     (Perintah deklarasi variabel lengkap, tidak menghasilkan nilai langsung saat dievaluasi).
+   - Statement 2: `daftarProduk.push({ nama: "Matcha Latte", harga: 20000 });`
+     (Instruksi tindakan untuk menambahkan elemen ke array).
+   
+   - Expression 1: `curr.harga`
+     (Dievaluasi menjadi nilai angka dari harga produk saat iterasi, misal: 18000).
+   - Expression 2: `totalHarga`
+     (Dievaluasi menjadi angka total keseluruhan, yaitu: 72500).
+*/
