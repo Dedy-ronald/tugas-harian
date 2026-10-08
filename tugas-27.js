@@ -40,3 +40,37 @@ Jawaban singkat:
 2) baris `TARIF_PAJAK = 0.12;` ditolak, sementara mengubah `statusBuka` diperbolehkan karena TARIF_PAJAK dideklarasikan menggunakan const sehingga nilainya bersifat konstan dan tidak diubah sedangkan `statusBuka` diperbolehkan karena dideklarasikan menggunakan let sehingga nilainya bersifat dinamis dan dapat diubah.
 3) `"2020" + 1` menghasilkan `"20201"` karena variabel string jika menggunakan operator + akan melakukan penggabungan sedangkan number akan melakukan penjumlahan aritmatika dan perubahan yang saya lakukan adalah mengubahnya dari variabel string menjadi variabel number
 */
+
+//1. Object Usaha
+ let usaha = {
+    namaUsaha:"Asavs",
+    namaPemilik:"Mr.Ded",
+    kotaUsaha:"Djogjakarta",
+    tahunBerdiri:"2027",
+    statusBuka:"09.00 - 01.00",
+    nomorWhatsapp:"081234567890",
+    webiste: null 
+ };
+
+ //2. Array daftarProduk
+ let daftarProduk = [
+    { nama: "Mod", harga: 500000},
+    { nama: "AIO", harga: 1000000},
+    { nama: "Pod", harga: 200000},
+    { nama: "Lq", harga: 150000}, //Produk ke-4 yang ditambahkan
+    ];
+
+//3. Cetak ke Console
+console.log("Nama Usaha", usaha.namaUsaha); //Notasi Titik
+console.log("Kota Usaha", usaha["kotaUsaha"]); //Notasi Kurung Siku
+console.log("Produk Pertama", daftarProduk [0]); //Indeks Pertama
+console.log("Produk Terakhir", daftarProduk [daftarProduk.length - 1]); //Indeks Terakhir
+
+/*
+Jawaban Singkat:
+1) nomor WhatsApp (contoh `"08123456789"`) lebih tepat disimpan sebagai **string** karena jika disimpan sebagai number (contoh:081234567890), Javascript akan menganggap nol diawal tidak bernilai dan otomatis merubahnya 81234567890.
+2) `website` diberi `null`, bukan dibiarkan tanpa nilai seperti di kode awal karena website diberi null untuk menunjukkan kesengajaan bahwa properti tersebut memang ada tetapi belum/tidak memiliki nilai saat ini.
+    Perbedaan 'null' dan 'undefined' adalah 'null' nilainya sengaja dikosongkan oleh si programmer sedangkan 'undefined' variabel atau properti yang belum dideklarasikan atau belum pernah diberi nilai oleh Javascript.
+3) `daftarProduk[4]` tidak berisi produk ke-4, dan apa yang tercetak jika kamu mengaksesnya Array di JavaScript menggunakan zero-based indexing (penomoran indeks dimulai dari angka 0). Produk ke-1 berada di indeks 0, produk ke-2 di indeks 1, produk ke-3 di indeks 2, dan produk ke-4 berada di indeks 3.
+    Jika kita mengakses daftarProduk[4], JavaScript akan mencari elemen di posisi ke-5. Karena elemen tersebut tidak ada di dalam array, maka yang tercetak di console adalah undefined.
+*/
