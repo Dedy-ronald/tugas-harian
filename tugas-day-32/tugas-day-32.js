@@ -129,3 +129,140 @@ console.log(hitungTotal(80000, 8800));
 3. Pada hitungDiskon (regular function), perhitungan dilakukan di dalam blok {} tanpa menggunakan kata kunci return, sehingga fungsi tidak mengembalikan nilai apa pun ke luar.
     Pada hitungPajak (arrow function), penggunaan kurung kurawal {} mewajibkan kita menuliskan return secara manual jika ingin mengembalikan nilai. Karena tidak ditulis, fungsi tersebut mengembalikan undefined secara otomatis.
 */
+
+
+// LANGKAH 3: PROGRAM KASIR
+
+const kasirNamaMenu = ["Kopi Susu", "Es Teh", "Roti Bakar", "Nasi Goreng", "Jus Jeruk"];
+const kasirHargaMenu = [18000, 7500, 15000, 22000, 12000];
+let kasirKeranjang = [];
+
+// 1. Pengelolaan Keranjang menggunakan Array Methods
+kasirKeranjang.push("Nasi Goreng");      // Menambah di akhir
+kasirKeranjang.push("Roti Bakar");       // Menambah di akhir
+kasirKeranjang.push("Kopi Susu");        // Menambah di akhir
+kasirKeranjang.unshift("Es Teh");        // Menambah prioritas di depan
+let itemDibatalkan = kasirKeranjang.pop(); // Membatalkan satu item terakhir ("Kopi Susu")
+kasirKeranjang.splice(1, 1, "Jus Jeruk");  // Mengganti satu item di indeks 1
+
+// Pembuktian Pertanyaan 1: push() mengubah array asli
+console.log("--- Bukti Mutasi Array push() ---");
+let testArray = ["A", "B"];
+console.log("Sebelum push:", testArray); // [ 'A', 'B' ]
+testArray.push("C");
+console.log("Sesudah push:", testArray); // [ 'A', 'B', 'C' ] (Array asli berubah!)
+
+// 2. Cek item dengan includes dan ambil paket cepat dengan slice
+console.log("\n--- Cek Item & Paket Cepat ---");
+console.log("Apakah 'Es Teh' ada di keranjang?:", kasirKeranjang.includes("Es Teh"));
+let paketCepat = kasirKeranjang.slice(0, 3);
+console.log("Paket Cepat (3 item pertama):", paketCepat);
+
+// 3. Function Pertama (Function Declaration): kasirCariHarga
+function kasirCariHarga(namaMenu) {
+  let index = kasirNamaMenu.indexOf(namaMenu);
+  if (index !== -1) {
+    return kasirHargaMenu[index];
+  }
+  return 0;
+}
+
+// 4. Function Kedua (Function Expression): kasirHitungSubtotal
+const kasirHitungSubtotal = function(keranjang) {
+  let subtotal = 0;
+  for (let i = 0; i < keranjang.length; i++) {
+    subtotal += kasirCariHarga(keranjang[i]);
+  }
+  return subtotal;
+};
+
+// 5. Function Ketiga (Arrow Function dengan block & return): kasirHitungDiskon
+const kasirHitungDiskon = (subtotal) => {
+  if (subtotal >= 100000) {
+    return subtotal * 0.15;
+  } else if (subtotal >= 50000) {
+    return subtotal * 0.10;
+  } else if (subtotal >= 25000) {
+    return subtotal * 0.05;
+  } else {
+    return 0;
+  }
+};
+
+// 6. Function Keempat (Arrow Function ringkas + default parameter): kasirHitungPajak
+const kasirHitungPajak = (nilai, tarif = 0.11) => nilai * tarif;
+
+// 7. Function Kelima: kasirCetakStruk
+function kasirCetakStruk(subtotal, diskon, pajak, keranjang) {
+  console.log("===== STRUK PEMBAYARAN KASIR =====");
+  console.log("Daftar Item:");
+  for (let i = 0; i < keranjang.length; i++) {
+    console.log(`${i + 1}. ${keranjang[i]} - Rp${kasirCariHarga(keranjang[i])}`);
+  }
+  let subtotalSetelahDiskon = subtotal - diskon;
+  let totalAkhir = subtotalSetelahDiskon + pajak;
+
+  console.log("----------------------------------");
+  console.log(`Subtotal : Rp${subtotal}`);
+  console.log(`Diskon   : Rp${diskon}`);
+  console.log(`Pajak    : Rp${pajak}`);
+  console.log(`Total    : Rp${totalAkhir}`);
+  console.log("==================================");
+}
+
+// 8 & 9. UJI 2 SKENARIO
+
+// Skenario 1: Keranjang bernilai total >= 50000 (Mendapat diskon 10%)
+console.log("\n>>> MENJALANKAN SKENARIO 1 <<<");
+kasirKeranjang = ["Nasi Goreng", "Nasi Goreng", "Es Teh"]; // Subtotal: 22000 + 22000 + 7500 = 51500
+let sub1 = kasirHitungSubtotal(kasirKeranjang);
+let diskon1 = kasirHitungDiskon(sub1);
+let pajak1 = kasirHitungPajak(sub1 - diskon1); // Pajak dihitung setelah diskon
+kasirCetakStruk(sub1, diskon1, pajak1, kasirKeranjang);
+
+/* Hasil Skenario 1:
+Subtotal: Rp51500
+Diskon  : Rp5150
+Pajak   : Rp5098.5
+Total   : Rp51448.5
+*/
+
+
+// Skenario 2: Keranjang bernilai total >= 100000 (Mendapat diskon 15%)
+console.log("\n>>> MENJALANKAN SKENARIO 2 <<<");
+kasirKeranjang = ["Nasi Goreng", "Nasi Goreng", "Kopi Susu", "Roti Bakar"]; // Subtotal: 22000 + 22000 + 18000 + 15000 = 77000... mari kita perbesar agar >= 100000
+kasirKeranjang = ["Nasi Goreng", "Nasi Goreng", "Nasi Goreng", "Nasi Goreng", "Kopi Susu"]; // Subtotal: (22000*4) + 18000 = 106000
+let sub2 = kasirHitungSubtotal(kasirKeranjang);
+let diskon2 = kasirHitungDiskon(sub2);
+let pajak2 = kasirHitungPajak(sub2 - diskon2);
+kasirCetakStruk(sub2, diskon2, pajak2, kasirKeranjang);
+
+/* Hasil Skenario 2:
+Subtotal: Rp106000
+Diskon  : Rp15900
+Pajak   : Rp9911
+Total   : Rp100011
+*/
+
+
+// BONUS: FUNCTION KASIR BATALKAN ITEM
+
+function kasirBatalkanItem(namaMenu) {
+  let index = kasirKeranjang.indexOf(namaMenu);
+  if (index !== -1) {
+    kasirKeranjang.splice(index, 1);
+    return true;
+  }
+  return false;
+}
+
+console.log("\n--- Uji Coba Bonus: Batalkan Item ---");
+console.log("Keranjang sebelum:", kasirKeranjang);
+console.log("Batalkan 'Kopi Susu' (Ada):", kasirBatalkanItem("Kopi Susu"));   // true
+console.log("Batalkan 'Es Krim' (Tidak ada):", kasirBatalkanItem("Es Krim")); // false
+console.log("Keranjang sesudah:", kasirKeranjang);
+
+
+// PENGUJIAN HOISTING (Jawaban Pertanyaan 6)
+// console.log(kasirHitungSubtotalSebelum("Test")); // Baris ini jika diaktifkan akan menyebabkan Error: Cannot access 'kasirHitungSubtotalSebelum' before initialization
+const kasirHitungSubtotalSebelum = (param) => param;
