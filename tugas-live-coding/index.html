@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <main class="kontainer-form-kontak">
+        <section class="seksi-form">
+            <div class="judul-form">
+                <h1>Login</h1>
+                <p>Login menggunakan alamat email</p>
+            </div>
+
+            <form action="#" method="post" class="form-pendaftaran">
+
+
+                <div class="baris-input">
+                        <label for="email-user">Email Aktif(Wajib)</label>
+
+                        <input type="email" id="email-user" name="email" placeholder="contohnih@gmail.com" required>
+                </div>
+
+                <div class="baris-input">
+                        <label for="password-user">Password (Min.8 Karakter)</label>
+                        <input type="password" id="password-user" name="password" minlength="8" placeholder="Minimal 8 karakter" required>
+                </div>
+
+                 <div class="baris-input-checkbox">
+                        <input type="checkbox" id="persetujuan-terms" name="persetujuan" required>
+                        <label for="persetujuan-terms">Ingat Saya.</label>
+                </div>
+
+                <div class="aksi-form">
+                    <input type="submit" value="Submit" class="tombol-kirim-form">
+                </div>
+
+                <p>Belum Punya Akun?</p><a href="./index.html" target="_blank">Daftar di sini</a>                
+            </form>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
